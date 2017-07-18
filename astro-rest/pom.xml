@@ -33,9 +33,20 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- Restlet Framework -->
         <dependency>
-            <groupId>org.restlet.jse</groupId>
+            <groupId>org.restlet.jee</groupId>
             <artifactId>org.restlet</artifactId>
+            <version>${version.restlet}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.swagger</artifactId>
+            <version>${version.restlet}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.servlet</artifactId>
             <version>${version.restlet}</version>
         </dependency>
         <dependency>

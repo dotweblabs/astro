@@ -67,7 +67,7 @@ public class AstroApplication extends Application {
             "Content-Type"));
 	  	corsFilter.setAllowedCredentials(true);
 		router.attach(ROOT_URI + "ping", PingServerResource.class);
-	  	router.attach(ROOT_URI + "/values/{key}", KeyValueServerResource.class);
+	  	router.attach(ROOT_URI + "values/{key}", KeyValueServerResource.class);
 	  	router.attachDefault(RootServerResource.class);
 
 		// Configuring Swagger 2 support
