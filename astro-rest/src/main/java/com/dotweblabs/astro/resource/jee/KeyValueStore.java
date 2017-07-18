@@ -1,15 +1,12 @@
 package com.dotweblabs.astro.resource.jee;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceServletContextListener;
-import com.dotweblabs.astro.guice.GuiceConfigModule;
-import com.dotweblabs.astro.guice.GuiceServletModule;
 import com.dotweblabs.astro.Astro;
+import me.alexpanov.net.FreePortFinder;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -38,17 +35,22 @@ public class KeyValueStore implements ServletContextListener {
             @Override
             public void run() {
                 logger.info("Running Astro");
-                String[] address = {DEFAULT_ADDR + ":" + DEFAULT_PORT};
+                String port = DEFAULT_PORT;
+                if(isPortUsed("127.0.0.1", Integer.valueOf(port).intValue())) {
+                    int p = FreePortFinder.findFreeLocalPort();
+                    port = String.valueOf(p);
+                }
+                String[] address = {DEFAULT_ADDR + ":" + port};
                 server = new Astro(DEFAULT_PATH, address);
                 server.start();
                 if(server.isRunning()) {
-                    logger.info("Astro running");
+                    logger.info("Astro running on " + port);
                 } else {
                     logger.warning("Astro is not running");
                 }
                 while(server.isRunning()) {
                     try {
-                        logger.warning("Astro is running...");
+                        logger.info("Astro is running...");
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -69,4 +71,17 @@ public class KeyValueStore implements ServletContextListener {
 //    protected Injector getInjector() {
 //        return Guice.createInjector(new GuiceConfigModule(), new GuiceServletModule());
 //    }
+
+    private boolean isPortUsed(String hostName, int portNumber) {
+        boolean result;
+        try {
+            Socket s = new Socket(hostName, portNumber);
+            s.close();
+            result = true;
+        }
+        catch(Exception e) {
+            result = false;
+        }
+        return(result);
+    }
 }
