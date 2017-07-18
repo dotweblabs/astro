@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.dotweblabs.astro</groupId>
+        <artifactId>astro-parent</artifactId>
+        <version>0-SNAPHOT</version>
+    </parent>
+
+    <groupId>com.dotweblabs.astro</groupId>
+    <artifactId>astro-rest</artifactId>
+    <packaging>war</packaging>
+    <name>Astro REST API</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <guava.version>18.0</guava.version>
+        <xtend.version>2.9.1</xtend.version>
+        <version.restlet>2.3.7</version.restlet>
+        <version.junit>4.11</version.junit>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.restlet.jse</groupId>
+            <artifactId>org.restlet</artifactId>
+            <version>${version.restlet}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <version>1.0.0.Final</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>com.carlosbecker</groupId>
+            <artifactId>guice-junit-test-runner</artifactId>
+            <version>1.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <!-- ASTRO -->
+        <dependency>
+            <groupId>com.dotweblabs.astro</groupId>
+            <artifactId>astro</artifactId>
+            <version>0-SNAPHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.dotweblabs.astro</groupId>
+            <artifactId>astro-client</artifactId>
+            <version>0-SNAPHOT</version>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>jetty</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>maven-jetty-plugin</artifactId>
+                        <version>6.1.10</version>
+                        <configuration>
+                            <scanIntervalSeconds>10</scanIntervalSeconds>
+                            <connectors>
+                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                    <port>8080</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
+                            <contextPath>/</contextPath>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.jelastic</groupId>
+                        <artifactId>jelastic-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <configuration>
+                            <api_hoster></api_hoster>
+                            <email></email>
+                            <password></password>
+                            <environment></environment>
+                            <!--<context>[specify the context if you need it]</context>-->
+                            <!--<comment>[insert comment if you need it]</comment>-->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <repositories>
+        <repository>
+            <id>atlassian-public</id>
+            <url>https://maven.atlassian.com/repository/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+                <checksumPolicy>warn</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>warn</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>maven-restlet</id>
+            <name>Public online Restlet repository</name>
+            <url>http://maven.restlet.com</url>
+        </repository>
+        <!-- Needed by ApiSpark due to RAML dependency-->
+        <repository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <url>https://repository-master.mulesoft.org/releases/</url>
+        </repository>
+        <!-- Snapshot repository -->
+        <repository>
+            <id>oss-jfrog-artifactory-snapshots</id>
+            <name>oss-jfrog-artifactory-snapshots</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+        </repository>
+        <repository>
+            <id>jboss</id>
+            <name>JBoss Public Repo</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>sonatype-public</id>
+            <name>Sonatype Public Snapshots Repo</name>
+            <url>https://oss.sonatype.org/content/repositories/public</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+    </pluginRepositories>
+</project>
