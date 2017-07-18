@@ -1,3 +1,19 @@
+/**
+ * Copyright 2017 Dotweblabs Web Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 package com.dotweblabs.astro;
 
 import com.dotweblabs.astro.methods.Delete;
@@ -66,7 +82,7 @@ public class Astro {
         if(server.isRunning()) {
             logger.info("Server running already");
         } else {
-            logger.info("Server is not running");
+            logger.info("Server is not running!");
             server.bootstrap(members).join();
             server.cluster().join(members).join();
         }
@@ -76,7 +92,7 @@ public class Astro {
         if(server.isRunning()) {
             logger.info("Server running already");
         } else {
-            logger.info("Server is not running");
+            logger.info("Server is not running...");
             Collection<Address> cluster = Collections.singleton(members.get(0));
             server.cluster().join(cluster).join();
         }

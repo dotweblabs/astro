@@ -8,6 +8,8 @@ import com.dotweblabs.astro.guice.GuiceServletModule;
 import com.dotweblabs.astro.Astro;
 
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -17,7 +19,8 @@ import java.util.logging.Logger;
  * @version 0-SNAPSHOT
  * @since 0-SNAPSHOT
  */
-public class KeyValueStore extends GuiceServletContextListener {
+@WebListener
+public class KeyValueStore implements ServletContextListener {
 
     public static Logger logger = Logger.getLogger(KeyValueStore.class.getName());
 
@@ -34,9 +37,23 @@ public class KeyValueStore extends GuiceServletContextListener {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                logger.info("Running Astro");
                 String[] address = {DEFAULT_ADDR + ":" + DEFAULT_PORT};
                 server = new Astro(DEFAULT_PATH, address);
                 server.start();
+                if(server.isRunning()) {
+                    logger.info("Astro running");
+                } else {
+                    logger.warning("Astro is not running");
+                }
+                while(server.isRunning()) {
+                    try {
+                        logger.warning("Astro is running...");
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         };
         executor.submit(runnable);
@@ -48,8 +65,8 @@ public class KeyValueStore extends GuiceServletContextListener {
         executor.shutdown();
     }
 
-    @Override
-    protected Injector getInjector() {
-        return Guice.createInjector(new GuiceConfigModule(), new GuiceServletModule());
-    }
+//    @Override
+//    protected Injector getInjector() {
+//        return Guice.createInjector(new GuiceConfigModule(), new GuiceServletModule());
+//    }
 }

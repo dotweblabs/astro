@@ -38,9 +38,9 @@
       <version>${copycat.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.atomix.copycat</groupId>
-      <artifactId>keyvalue-server</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.dotweblabs.astro</groupId>
+      <artifactId>astro</artifactId>
+      <version>0-SNAPHOT</version>
     </dependency>
       <!--<dependency>-->
           <!--<groupId>io.atomix.copycat</groupId>-->
